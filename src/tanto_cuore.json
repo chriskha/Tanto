@@ -1,0 +1,73 @@
+{ 
+    "set": {
+        "name":"Tanto Cuore - Base Set" 
+        },
+    "cardList": { 
+        "maid": {
+            [
+                {
+                    "cardNumber":1,
+                    "title":"Maid Chief",
+                    "cardName":"Marianne Soleil",
+                    "employCost":9,
+                    "victoryPoints":6,
+                    "draw":0,
+                    "love":0,
+                    "servings":0,
+                    "employments":0,
+                    "maidCategory":"Maid Chief",
+                    "maidAbilityText":"",
+                    "quantity":8
+                },
+                {
+                    "cardNumber":2,
+                    "title":"Chambermaid Chief",
+                    "cardName":"Colette Framboise",
+                    "employCost":3,
+                    "victoryPoints":1,
+                    "draw":0,
+                    "love":0,
+                    "servings":0,
+                    "employments":0,
+                    "maidCategory":"Maid Chief",
+                    "maidAbilityText":"$Chambermaid -> Serving: -2 $[At the end of the game]$If you have more Colettes employed than any other player, you gain a bonus 5VP.",
+                    "quantity":24
+                },
+                {
+                    "cardNumber":10,
+                    "title":"Cooking Maid",
+                    "cardName":"Genevieve Daubigny",
+                    "employCost":4,
+                    "victoryPoints":0,
+                    "draw":1,
+                    "love":1,
+                    "servings":1,
+                    "employments":0,
+                    "maidCategory":"General Maid",
+                    "maidAbilityText":,
+                    "quantity":10
+                },
+                {
+                    "cardNumber":9,
+                    "title":"Scrapping Maid",
+                    "cardName":"Esquine Foret",
+                    "employCost":4,
+                    "victoryPoints":0,
+                    "draw":2,
+                    "love":0,
+                    "servings":0,
+                    "employments":0,
+                    "maidCategory":"General Maid",
+                    "maidAbility":{"active":"discard 1 +serving 1",],
+                    "quantity":10
+                }
+            ]
+        },
+        "love": {
+        
+        },
+        "event": {
+        
+        }
+    }
+}

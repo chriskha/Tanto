@@ -1,0 +1,7 @@
+Abilities of cards simplified
+1)Draw Card(s)
+2) Discard Card(s)
+3) Mill 
+
+Saffron
+
