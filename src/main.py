@@ -1,6 +1,12 @@
 from random import shuffle
-import MaidCard
-import Love1Card
+from src.Game import Game
+from src.Player import Player
+from src.Town import Town
+from src.cards.BaseSet import getMaidFuncBuilder
+from src.cards.EventCard import getEventBuilderFunc
+from src.cards.LoveCard import getLoveBuilderFunc
+from src.cards.MaidCard import MaidCard
+
 
 """global cardUID
 
@@ -21,40 +27,11 @@ def mainloop():
   print "Game START"
   print deck"""
 
-a = []
-b = []
-def createTown(s):
-    for c in a:
-        i = 0
-        for i in range(c.initialQuantity):
-            b.append(c)
-            i += 1
-    print "Town Created"
-    for h in b:
-        print h.name
-
-def createDeck(s):
-    pass
-
-def buildCardSet(s):
-    for m in iter(s):
-        if m == 'chiefMaid' or m == 'chamberMaid':
-            maid = MaidCard.MaidCard(s[m][0])
-            a.append(maid)
-        elif m == 'servingMaid':
-            for k in range(len(s[m])):
-                maid = MaidCard.MaidCard(s[m][k])
-                a.append(maid)
-
+game = Game()
+players = Player(game)
 
 def mainloop():
-    fp = open("tanto_cuore.json", 'r')
-    import json
-    s = json.loads(fp.read())
-    buildCardSet(s['cardList'])
-    for e in range(len(a)):
-        print "name: %s\temployCost: %d" % (a[e].name, a[e].employCost)
-    createTown(s)
+    Game.setupGame(game, None, players)
   
 
 mainloop()
