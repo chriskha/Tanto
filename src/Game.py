@@ -3,12 +3,8 @@ Created on Nov 29, 2012
 
 @author: christopherkha
 '''
-from src.Phase import PhaseManager, StartingPhase, ServicePhase, EmployPhase, \
-    DismissPhase
-from src.Town import Town
-from src.cards.BaseSet import getMaidFuncBuilder
-from src.cards.EventCard import getEventBuilderFunc
-from src.cards.LoveCard import getLoveBuilderFunc
+from src import phase, town
+from src.cards import base_set, event_card, love_card
 import json
 
 class Game(object):
@@ -21,54 +17,56 @@ class Game(object):
         '''
         Constructor
         '''
-        self.town = Town()
+        self.town = town.Town()
         self.running = False
-        self.phase = PhaseManager(self, 
-                                  (StartingPhase(self), ServicePhase(self), EmployPhase(self), DismissPhase(self)),
-                                  self.__enteringPhase, self.__enteredPhase, self.__leavingPhase )
+        self.phase = phase.PhaseManager(self, 
+                                  (phase.StartingPhase(self), phase.ServicePhase(self), \
+                                   phase.EmployPhase(self), phase.DismissPhase(self)),
+                                  self.__entering_phase, self.__entered_phase, \
+                                  self.__leaving_phase )
         
     def update(self):
         ''' Main game loop '''
         self.phase.update()
     
-    def drawCard(self, player, count=1):
+    def draw_card(self, player, count=1):
         for _ in xrange(count):
-            player.drawCard()
+            player.draw_card()
         #self.updatePlayer(player)
         
-    def __enteringPhase(self, phase):
+    def __entering_phase(self, phase):
         ''' Do something special for entering a phase, at the beginning of the phase '''
         pass
     
-    def __enteredPhase(self, phase):
+    def __entered_phase(self, phase):
         pass
     
-    def __leavingPhase(self, phase):
+    def __leaving_phase(self, phase):
         pass
     
-    def setupGame(self, setup, players):
-        setList = readJson()
-        cardSet = buildCardSet(setList['cardList'])
-        self.town.createTown(cardSet)
+    def setup_game(self, setup, players):
+        set_list = read_json()
+        card_set = build_card_set(set_list['cardList'])
+        self.town.create_town(card_set)
         
         self.players = players
-        players.setupPlayer(self.town)
+        players.setup_player(self.town)
         
         self.running = True
-        self.phase.nextPhase()
+        self.phase.next_phase()
         
 #move to Util.py ?
-def readJson():
+def read_json():
     fp = open("tanto_cuore.json", 'r')
     s = json.loads(fp.read())
     return s
 
-def buildCardSet(s):
+def build_card_set(s):
     a = []
     for m in iter(s):
         if m == 'maid':
             for i in xrange(len(s[m])):
-                b = getMaidFuncBuilder(s[m][i]['cardName'])
+                b = base_set.get_maid_builder_func(s[m][i]['cardName'])
                 #print s[m][i]['cardName']
                 if b == None:
                     continue
@@ -76,18 +74,18 @@ def buildCardSet(s):
                 a.append(maid)
         if m == 'love':
             for i in xrange(len(s[m])):
-                b = getLoveBuilderFunc(s[m][i]['cardName'])
+                b = love_card.get_love_builder_func(s[m][i]['cardName'])
                 #print s[m][i]['cardName']
                 if b == None:
                     continue
-                loveCard = b(s[m][i])
-                a.append(loveCard)
+                love = b(s[m][i])
+                a.append(love)
         if m == 'event':
             for i in xrange(len(s[m])):
-                b = getEventBuilderFunc(s[m][i]['cardName'])
+                b = event_card.get_event_builder_func(s[m][i]['cardName'])
                 #print s[m][i]['cardName']
                 if b == None:
                     continue
-                eventCard = b(s[m][i])
-                a.append(eventCard)
+                event = b(s[m][i])
+                a.append(event)
     return a

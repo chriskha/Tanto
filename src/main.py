@@ -1,11 +1,5 @@
-from random import shuffle
-from src.Game import Game
-from src.Player import Player
-from src.Town import Town
-from src.cards.BaseSet import getMaidFuncBuilder
-from src.cards.EventCard import getEventBuilderFunc
-from src.cards.LoveCard import getLoveBuilderFunc
-from src.cards.MaidCard import MaidCard
+from src import game
+from src import player
 
 
 """global cardUID
@@ -27,11 +21,11 @@ def mainloop():
   print "Game START"
   print deck"""
 
-game = Game()
-players = Player(game)
+game = game.Game()
+players = player.Player(game)
 
 def mainloop():
-    Game.setupGame(game, None, players)
+    game.setup_game(None, players)
   
 
 mainloop()

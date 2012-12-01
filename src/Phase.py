@@ -9,33 +9,33 @@ class PhaseManager(object):
     def __init__(self, game, phases, enter_callback, entered_callback, end_callback):
         self.__game = game
         self.__phases = phases
-        self.__enterCallback = enter_callback
-        self.__enteredCallback = entered_callback
-        self.__endCallback = end_callback
-        self.__currentPhase = None
+        self.__enter_callback = enter_callback
+        self.__entered_callback = entered_callback
+        self.__end_callback = end_callback
+        self.__current_phase = None
         
-    def getCurrentPhase(self):
-        return self.__currentPhase
+    def get_current_phase(self):
+        return self.__current_phase
     
     def update(self):
-        self.__currentPhase.update()
+        self.__current_phase.update()
         
-    def nextPhase(self):
+    def next_phase(self):
         ''' Switch to next phase. If the current phase is the last one, go to the first '''
-        if self.__currentPhase == None:
-            self.__currentPhase = self.__phases[0]
+        if self.__current_phase == None:
+            self.__current_phase = self.__phases[0]
         else:
-            self.__endCallback(self.__currentPhase)
-            self.__currentPhase.endPhase()
+            self.__end_callback(self.__current_phase)
+            self.__current_phase.end_phase()
             
             try:
-                self.__currentPhase = (self.__phases)[self.__phases.index(self.__currentPhase) + 1]
+                self.__current_phase = (self.__phases)[self.__phases.index(self.__current_phase) + 1]
             except IndexError:
-                self.__currentPhase = (self.__phases)[0]
+                self.__current_phase = (self.__phases)[0]
                 
-        self.__enterCallback(self.__currentPhase)
-        self.__currentPhase.enterPhase()
-        self.__enteredCallback(self.__currentPhase)
+        self.__enter_callback(self.__current_phase)
+        self.__current_phase.enter_phase()
+        self.__entered_callback(self.__current_phase)
                 
 class Phase(object):
     '''
@@ -49,57 +49,57 @@ class Phase(object):
         '''
         self.game = game
         
-    def enterPhase(self):
+    def enter_phase(self):
         pass
     
     def update(self):
         pass
     
-    def endPhase(self):
+    def end_phase(self):
         pass
     
 class StartingPhase(Phase):
     name = "Starting Phase"
-    def enterPhase(self):
+    def enter_phase(self):
         pass
     
     def update(self):
         pass
     
-    def endPhase(self):
+    def end_phase(self):
         pass
     
 class ServicePhase(Phase):
     name = "Serving Phase"
-    def enterPhase(self):
+    def enter_phase(self):
         pass
     
     def update(self):
         pass
     
-    def endPhase(self):
+    def end_phase(self):
         pass
     
 class EmployPhase(Phase):
     name = "Employ Phase"
-    def enterPhase(self):
+    def enter_phase(self):
         pass
     
     def update(self):
         pass
     
-    def endPhase(self):
+    def end_phase(self):
         pass
     
 class DismissPhase(Phase):
     name = "Dismiss Phase"
-    def enterPhase(self):
+    def enter_phase(self):
         pass
     
     def update(self):
         pass
     
-    def endPhase(self):
+    def end_phase(self):
         pass
     
     

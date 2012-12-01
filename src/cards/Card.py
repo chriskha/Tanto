@@ -1,37 +1,37 @@
-import GameObject
+from src import game_object
 
-class Card(GameObject.GameObject):
+class Card(game_object.GameObject):
     """Tanto Cuore Card class"""
-    def __init__(self, cardInfo):
-        self.cardNumber = cardInfo['cardNumber']
-        self.name = cardInfo['cardName']
-        self.employCost = cardInfo['employCost']
-        self.victoryPoints = cardInfo['victoryPoints']
-        self.initialQuantity = cardInfo['quantity']
+    def __init__(self, card_info):
+        self.card_number = card_info['cardNumber']
+        self.name = card_info['cardName']
+        self.employ_cost = card_info['employCost']
+        self.victory_points = card_info['victoryPoints']
+        self.initial_quantity = card_info['quantity']
         self.player = None
         
-    def obtainedEvent(self, game, player):
+    def obtained_event(self, game, player):
         pass
     
-    def startPhaseEvent(self, game, player):
+    def start_phase_event(self, game, player):
         pass
     
-    def servePhaseEvent(self, game, player):
+    def serve_phase_event(self, game, player):
         pass
     
-    def servePhasePlayed(self, game, player):
+    def serve_phase_played(self, game, player):
         pass
     
-    def employPhaseEvent(self, game, player):
+    def employ_phase_event(self, game, player):
         pass
     
-    def employPhasePlayed(self, game, player):
+    def employ_phase_played(self, game, player):
         pass
     
-    def dismissPhaseEvent(self, game, player):
+    def dismiss_phase_event(self, game, player):
         pass
     
-    def endGameEvent(self, game, player):
+    def end_game_event(self, game, player):
         pass
     
     def handler(self, game, player, result):
