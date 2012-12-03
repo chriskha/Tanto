@@ -4,7 +4,9 @@ Created on Nov 29, 2012
 @author: christopherkha
 '''
 from src import phase, town
-from src.cards import base_set, event_card, love_card
+from src.cards import base_set, event_card, love_card, maid_card
+from src.constants import STARTING_PHASE, SERVICE_PHASE, EMPLOY_PHASE
+from src.phase import StartingPhase, ServicePhase
 import json
 
 class Game(object):
@@ -17,6 +19,7 @@ class Game(object):
         '''
         Constructor
         '''
+        self._active_player = None
         self.town = town.Town()
         self.running = False
         self.phase = phase.PhaseManager(self, 
@@ -29,11 +32,6 @@ class Game(object):
         ''' Main game loop '''
         self.phase.update()
     
-    def draw_card(self, player, count=1):
-        for _ in xrange(count):
-            player.draw_card()
-        #self.updatePlayer(player)
-        
     def __entering_phase(self, phase):
         ''' Do something special for entering a phase, at the beginning of the phase '''
         pass
@@ -53,7 +51,58 @@ class Game(object):
         players.setup_player(self.town)
         
         self.running = True
+        self._active_player = players
         self.phase.next_phase()
+        
+    def draw_card(self, player, count=1):
+        for _ in xrange(count):
+            if len(player.deck) == 0:
+                self.replenish_deck(player)
+                
+            '''If both Deck and Discard Pile are empty, don't draw anymore cards.'''
+            if (len(player.deck)) == 0 and (len(player.discard_pile)) == 0:
+                return
+                
+            player.draw_card()
+        #self.updatePlayer(player)
+        
+    def replenish_deck(self, player):
+        player.replenish_deck()
+        
+    def play_card(self, player, card):
+        if self.phase == SERVICE_PHASE and not isinstance(card, maid_card.MaidCard):
+            print "Can only play Maid Cards during SERVING PHASE!"
+            return
+        if self.phase == EMPLOY_PHASE and not isinstance(card, love_card.LoveCard):
+            print "Can only play Love Cards during EMPLOY PHASE!"
+            return
+        
+        print "\nPlayed card %s!" % card.name
+        player.play_card(card)
+        if self.phase == SERVICE_PHASE:
+            card.serve_phase_played(self, player)
+        elif self.phase == EMPLOY_PHASE:
+            card.employ_phase_played(self, player)
+        
+        if isinstance(card, maid_card.MaidCard):
+            player.service_count -= 1
+            
+        print "Love: %d, Services: %d, Employs: %d" % (player.love_count, player.service_count, player.employ_count)
+
+    def discard_card_from_hand(self, player, card):
+        player.discard_card_from_hand(card)
+        
+    def discard_all_from_hand(self, player):
+        hand_size = len(player.hand)
+        for _ in xrange(hand_size):
+            player.discard_card_from_hand(player.hand[0])
+            
+    def discard_field_to_discard_pile(self, player):
+        field_size = len(player.play_field)
+        for _ in xrange(field_size):
+            card = player.play_field[0]
+            player.play_field.remove(card)
+            player.discard_pile.append(card)
         
 #move to Util.py ?
 def read_json():

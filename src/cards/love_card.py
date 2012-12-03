@@ -9,12 +9,20 @@ class LoveCard(card.Card):
     def employ_phase_played(self, game, player):
         self.generate_love(game, player)
 
+#    def activate(self):
+
     def generate_love(self, game, player):
-        player.loveTotal += self.love
+        player.love_count += self.love
+        print "Love generated: %d total" % (player.love_count)
 
 class LoveCard1(LoveCard):
     def __init__(self, love_info):
         LoveCard.__init__(self, love_info)
+        
+    def activate(self, game, player):
+        print "\nCard activated: %s" % self.__class__
+        player.love_count += 1
+        print "\nPlayer love_count: %d" % (player.love_count)
         
 class LoveCard2(LoveCard):
     def __init__(self, love_info):

@@ -3,16 +3,18 @@ Created on Nov 29, 2012
 
 @author: christopherkha
 '''
+from src import phase
 from src.cards import maid_card
 
-class Colette(maid_card.MaidCard):
-    def __init__(self, maid_info):
-        maid_card.MaidCard.__init__(self, maid_info)
 
 class Marianne(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)        
 
+class Colette(maid_card.MaidCard):
+    def __init__(self, maid_info):
+        maid_card.MaidCard.__init__(self, maid_info)
+        
 class Ophelia(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
@@ -41,8 +43,21 @@ class Esquine(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
         
-    def servePhasePlayed(self, game, player):
-        pass
+    def serve_phase_played(self, game, player):
+        print "Activate Esquine ability"
+        game.draw_card(player, 2)
+        
+        print "\n%d cards in hand: " % (len(player.hand))
+        print player.hand
+        print "\nDiscard up to 2 cards?"
+        
+        for _ in xrange(2):
+            discarded = phase.make_decision(game, player, player.hand, "discard")
+            
+            if discarded:
+                player.service_count += 1
+            else:
+                break
         
 class Genevieve(maid_card.MaidCard):
     def __init__(self, maid_info):

@@ -34,6 +34,9 @@ class Card(game_object.GameObject):
     def end_game_event(self, game, player):
         pass
     
+    def activate(self, game, player):
+        pass
+    
     def handler(self, game, player, result):
         pass
     

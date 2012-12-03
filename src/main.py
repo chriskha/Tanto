@@ -26,6 +26,9 @@ players = player.Player(game)
 
 def mainloop():
     game.setup_game(None, players)
+    
+    while game.running:
+        game.update()
   
 
 mainloop()
