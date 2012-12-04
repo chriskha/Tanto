@@ -89,7 +89,10 @@ class ServicePhase(Phase):
         print "Love: %d, Services: %d, Employs: %d\n" % (p.love_count, p.service_count, p.employ_count)
     
     def update(self):
-        make_decision(self.game, self.game._active_player, self.game._active_player.hand, "play")
+        if self.game._active_player.service_count == 0:
+            self.game.phase.next_phase()
+        else:
+            make_decision(self.game, self.game._active_player, self.game._active_player.hand, "play")
         
     def end_phase(self):
         pass
@@ -104,7 +107,10 @@ class EmployPhase(Phase):
         print "Love: %d, Services: %d, Employs: %d\n" % (p.love_count, p.service_count, p.employ_count)
     
     def update(self):
-        make_decision(self.game, self.game._active_player, self.game._active_player.hand, "play")
+        if self.game._active_player.employ_count == 0:
+            self.game.phase.next_phase()
+        else:
+            make_decision(self.game, self.game._active_player, self.game._active_player.hand, "play")
     
     def end_phase(self):
         pass

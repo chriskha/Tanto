@@ -18,26 +18,70 @@ class Colette(maid_card.MaidCard):
 class Ophelia(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Ophelia ability"
+        game.draw_card(player, 1)
+        player.love_count += 1
+        player.service_count += 1
+        player.employ_count += 1
+        
+    def end_game_event(self, game, player):
+        # TODO: if more than 1 Ophelia:
+        # EVEN, each -2 VP
+        # ODD, each 2 VP
+        pass
 
 class Anise(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
         
+    def serve_phase_played(self, game, player):
+        print "Activate Anise ability"
+        game.draw_card(player, 3)
+        player.employ_count += 1
+        
 class Sainsbury(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
         
+    def serve_phase_played(self, game, player):
+        print "Activate Sainsbury ability"
+        
+        # TODO: Put 1 Love from hand to town. Take from town 2 Love or maid up to 4 cost to hand
+        
 class Tenalys(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Tenalys ability"
+        player.love_count += 3
+        player.employ_count += 1
+        
+        # TODO: All other players draw card
 
 class Natsumi(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Natsumi ability"
+        game.draw_card(player, 1)
+        player.service_count += 2
+        
+        discarded = phase.make_decision(game, player, player.hand, "discard")
+        if discarded:
+            # TODO: All other players if hand >= 4, discard card
+            pass
+        
 
 class Nena(maid_card.MaidCard):
     def __init__(self, maid_info):
-        maid_card.MaidCard.__init__(self, maid_info)        
+        maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Nena ability"
 
 class Esquine(maid_card.MaidCard):
     def __init__(self, maid_info):
@@ -62,38 +106,80 @@ class Esquine(maid_card.MaidCard):
 class Genevieve(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Genevieve ability"
+        game.draw_card(player, 1)
+        player.service_count +=1
+        player.love_count += 1
 
 class Moine(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Moine ability"
+        game.draw_card(player, 2)
+        player.employ_count += 2
 
 class Eliza(maid_card.MaidCard):
     def __init__(self, maid_info):
-        maid_card.MaidCard.__init__(self, maid_info)        
+        maid_card.MaidCard.__init__(self, maid_info)  
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Eliza ability"      
+        player.love_count += 2
 
 class Kagari(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Kagari ability"
+        player.service_count += 2
 
 class Claire(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
         
+    def serve_phase_played(self, game, player):
+        print "Activate Claire ability"
+        
 class Safran(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
         
+    def serve_phase_played(self, game, player):
+        print "Activate Safran ability"
+        player.love_count += 2
+        
+    def end_game_event(self, game, player):
+        # TODO: Chambermaid bonuses for Safran
+        # 2 Safran - 4 VP
+        # 3 Safran - 8 VP
+        # 4 Safran - 12 VP
+        pass
+        
 class Azure(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Azure ability"
 
 class Viola(maid_card.MaidCard):
     def __init__(self, maid_info):
-        maid_card.MaidCard.__init__(self, maid_info)        
+        maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Viola ability" 
 
 class Rouge(maid_card.MaidCard):
     def __init__(self, maid_info):
         maid_card.MaidCard.__init__(self, maid_info)
+        
+    def serve_phase_played(self, game, player):
+        print "Activate Rouge ability"
 
 class Amber(maid_card.MaidCard):
     def __init__(self, maid_info):
