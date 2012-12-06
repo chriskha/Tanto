@@ -104,13 +104,16 @@ class EmployPhase(Phase):
     def enter_phase(self):
         print "Entering: %s" % (self.name)
         p = self.game._active_player
+        self.game.calculate_love(p)
         print "Love: %d, Services: %d, Employs: %d\n" % (p.love_count, p.service_count, p.employ_count)
     
     def update(self):
-        if self.game._active_player.employ_count == 0:
+        p = self.game._active_player
+        #self.game.calculate_love(p)
+        if p.employ_count == 0 or p.love_count == 0:
             self.game.phase.next_phase()
         else:
-            make_decision(self.game, self.game._active_player, self.game._active_player.hand, "play")
+            make_decision(self.game, p, self.game.town, "buy")
     
     def end_phase(self):
         pass
@@ -140,11 +143,24 @@ class DismissPhase(Phase):
     
 def make_decision(game, player, pile, action):
     print "%s" % (game.phase.get_current_phase().name)
-    print "Make a decision. Input number to %s card from hand. Press <Enter> for no action." % (action)
     index = 1
-    for card in pile:
-        print "%d - %s" % (index, card.name)
-        index += 1
+    if action == "play":
+        print "PLAY: Input number to %s card from hand. Press <Enter> for no action." % (action)
+        for card in pile:
+            print "%d - %s" % (index, card.name)
+            index += 1
+    elif action == "discard":
+        print "DISCARD: Input number to %s card from hand. Press <Enter> for no action." % (action)
+        for card in pile:
+            print "%d - %s" % (index, card.name)
+            index += 1
+    elif action == "buy":
+        print "EMPLOY: Input number to %s card from town. Press <Enter> for no action." % (action)
+        # Pile is Town object
+        print "Current love: %d" % (player.love_count)
+        index = pile.print_town()
+    else:
+        return
         
     inp = raw_input("Choice: ")
     if inp == "":
@@ -158,12 +174,21 @@ def make_decision(game, player, pile, action):
         elif action == "discard":
             game.discard_card_from_hand(player, player.hand[inp])
             return True
+        elif action == "buy":
+            game.buy_card(player, inp)
     elif inp < 0:
         if action == "play":
             game.phase.next_phase()
         elif action == "discard":
             return False
+        elif action == "buy":
+            game.phase.next_phase()
     else:
         print "Invalid command!"
         
         
+def play_decision():
+    pass
+
+def buy_decision():
+    pass

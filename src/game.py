@@ -5,6 +5,7 @@ Created on Nov 29, 2012
 '''
 from src import phase, town
 from src.cards import base_set, event_card, love_card, maid_card
+from src.cards.love_card import LoveCard
 from src.constants import STARTING_PHASE, SERVICE_PHASE, EMPLOY_PHASE
 from src.phase import StartingPhase, ServicePhase
 import json
@@ -64,6 +65,8 @@ class Game(object):
                 return
                 
             player.draw_card()
+        print "Hand: %s" % (player.hand)
+
         #self.updatePlayer(player)
         
     def replenish_deck(self, player):
@@ -76,6 +79,8 @@ class Game(object):
         if self.phase == EMPLOY_PHASE and not isinstance(card, love_card.LoveCard):
             print "Can only play Love Cards during EMPLOY PHASE!"
             return
+        if isinstance(card, maid_card.MaidCard):
+            player.service_count -= 1
         
         print "\nPlayed card %s!" % card.name
         player.play_card(card)
@@ -84,10 +89,23 @@ class Game(object):
         elif self.phase == EMPLOY_PHASE:
             card.employ_phase_played(self, player)
         
-        if isinstance(card, maid_card.MaidCard):
-            player.service_count -= 1
             
         print "Love: %d, Services: %d, Employs: %d" % (player.love_count, player.service_count, player.employ_count)
+
+
+    def buy_card(self, player, card_index):
+        s = "%s" % (card_index+1)
+        card_to_buy = self.town.town_set[s][0]
+        if player.love_count >= card_to_buy.employ_cost:
+            player.love_count -= card_to_buy.employ_cost
+            player.employ_count -= 1
+            card = self.town.town_set[s].pop()
+            print card
+            print self.town.general_maids_pile
+            print self.town.town_set[s]
+            player.discard_pile.append(card)
+        else:
+            print "Not enough love!"
 
     def discard_card_from_hand(self, player, card):
         player.discard_card_from_hand(card)
@@ -103,6 +121,15 @@ class Game(object):
             card = player.play_field[0]
             player.play_field.remove(card)
             player.discard_pile.append(card)
+            
+    def calculate_love(self, player):
+        index = 0
+        for _ in xrange(len(player.hand)):
+            card = player.hand[index]
+            if isinstance(card, LoveCard):
+                self.play_card(player, card)
+            else:
+                index += 1
         
 #move to Util.py ?
 def read_json():

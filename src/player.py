@@ -31,7 +31,7 @@ class Player(object):
     def setup_player(self, town):
 #        self.deck = rules.create_starting_deck(town)
         self.deck = rules.create_test_deck(town)
-        self.deck = rules.create_test2_deck(town)
+        #self.deck = rules.create_test2_deck(town)
         self.draw_card(5)
         
 #        print "\nCards in hand: %d" % (len(self.hand))

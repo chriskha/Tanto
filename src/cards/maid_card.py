@@ -1,4 +1,5 @@
 from src.cards import card
+import copy
 
 
 
@@ -27,7 +28,17 @@ class MaidCard(card.Card):
         self.is_chambermaid = maid_info['chambermaid']
         self.attachment = []
 
-
+    def copy(self):
+        copied_card = copy.copy(self)
+        copied_card.maid_title = self.maid_title
+        copied_card.maid_type = self.maid_type
+        copied_card.draw = self.draw
+        copied_card.serving = self.serving
+        copied_card.love = self.love
+        copied_card.employments = self.employments
+        self.is_chambermaid = self.is_chambermaid
+        return copied_card
+        
 
     def activate(self):
         pass

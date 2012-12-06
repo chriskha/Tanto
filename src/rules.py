@@ -76,27 +76,59 @@ def create_starting_town(town, card_list):
         card = town.private_maids_pile.pop()
         town.private_maids_up.append(card)
         
+    index = 1
+    for e in town.general_maids_pile:
+        s = '%s' % (index)
+        town.town_set[s] = e
+        index += 1
+    for e in town.chief_maids_pile:
+        s = '%s' % (index)
+        town.town_set[s] = e
+        index += 1        
+    for e in town.private_maids_up:
+        s = '%s' % (index)
+        town.town_set[s] = e
+        index += 1
+    for e in town.love_cards_pile:
+        s = '%s' % (index)
+        town.town_set[s] = e
+        index += 1
+    for e in town.event_cards_pile:
+        s = '%s' % (index)
+        town.town_set[s] = e
+        index += 1
+        
+        
 def create_test_deck(town):
     deck = []
     
     for i in iter(town.love_cards_pile):
-        if isinstance(i[0], love_card.LoveCard1):
+        if isinstance(i[0], love_card.LoveCard3):
             love_pile = i
     
+    # Add 7 1-Love to Hand
     for _ in xrange(7):
         card = love_pile.pop()
         deck.append(card)
     
+    # Get Colette
     for i in iter(town.chief_maids_pile):
         if i[0].is_chambermaid:
             starting_maid_pile = i
         
+    # Add 3 Colette to Hand
     for _ in xrange(3):
         card = starting_maid_pile.pop()
         deck.append(card)
     
+    size = len(town.private_maids_pile)
+    for i in xrange(size):
+        card = town.private_maids_pile.pop()
+    
+    # Add 1 of each General Maid to Hand
     for i in iter(town.general_maids_pile):
-        deck.append(i.pop())    
+        for _ in xrange(8):
+            deck.append(i.pop())    
     
         
     shuffle(deck)
